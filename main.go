@@ -27,7 +27,7 @@ func main() {
 	start := time.Now()
 	count, files := GetLines(dir, strings.Split(exts, ","))
 	if files > 0 {
-		fmt.Println(dir, "has", files, "files that match, and", count, "LOC in", files, "files with extensions in", exts, ". Average", float64(count)/float64(files))
+		fmt.Println(dir, "has", count, "LOC in", files, "files with extensions in", exts, ". Average", float64(count)/float64(files))
 	}
 	fmt.Println("Finished process in", time.Since(start))
 }
