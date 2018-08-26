@@ -2,7 +2,8 @@
 
 linecount -d . -e go
 
->. has 2 files that match, and 69 LOC in 2 files with extensions in go . Average 34.5
+>. has 69 LOC in 2 files with extensions in go . Average 34.5
+
 > Finished process in 1.9769ms
 
 API included
