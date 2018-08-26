@@ -12,3 +12,5 @@ GetLines(dir string, exts []string) (lines, files int64)
 lines, files := GetLines(".", []string{"go"})
 
 >lines = 69, files = 2
+
+TODO: Process multiple files concurrently
