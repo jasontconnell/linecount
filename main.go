@@ -27,7 +27,12 @@ func main() {
 	e := *exts
 
 	if !filepath.IsAbs(d) {
-		d, _ = os.Getwd()
+		wd, _ := os.Getwd()
+		if d != "." {
+			d = filepath.Join(wd, d)
+		} else {
+			d = wd
+		}
 	}
 
 	start := time.Now()
