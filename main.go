@@ -3,7 +3,9 @@ package main
 import (
 	"flag"
 	"fmt"
+	"math"
 	"os"
+	"path/filepath"
 	"strings"
 	"time"
 )
@@ -11,23 +13,29 @@ import (
 var exts string
 var dir string
 
-func init() {
-	flag.StringVar(&dir, "d", "", "Starting directory")
-	flag.StringVar(&exts, "e", "", "Extensions. Extensions of files to count line numbers in")
-}
-
 func main() {
+	dir := flag.String("d", ".", "Starting directory")
+	exts := flag.String("e", "", "Extensions. Extensions of files to count line numbers in")
 	flag.Parse()
 
-	if dir == "" || exts == "" {
+	if *dir == "" || *exts == "" {
 		flag.PrintDefaults()
 		os.Exit(0)
 	}
 
+	d := *dir
+	e := *exts
+
+	if !filepath.IsAbs(d) {
+		d, _ = os.Getwd()
+	}
+
 	start := time.Now()
-	count, files := GetLines(dir, strings.Split(exts, ","))
+	count, files := GetLines(d, strings.Split(e, ","))
 	if files > 0 {
-		fmt.Println(dir, "has", count, "LOC in", files, "files with extensions in", exts, ". Average", float64(count)/float64(files))
+		avg := float64(count) / float64(files)
+		avg = math.Round(avg)
+		fmt.Println(d, "has", count, "LOC in", files, "files with extensions in", e, ". Average", int64(avg))
 	}
 	fmt.Println("Finished process in", time.Since(start))
 }
