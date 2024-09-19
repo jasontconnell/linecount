@@ -16,6 +16,7 @@ var dir string
 func main() {
 	dir := flag.String("d", ".", "Starting directory")
 	exts := flag.String("e", "", "Extensions. Extensions of files to count line numbers in")
+	skipdirs := flag.String("skipdirs", "", "csv of dir names to skip")
 	flag.Parse()
 
 	if *dir == "" || *exts == "" {
@@ -36,11 +37,13 @@ func main() {
 	}
 
 	start := time.Now()
-	count, files := GetLines(d, strings.Split(e, ","))
+	count, files, min, max := GetLines(d, strings.Split(e, ","), strings.Split(*skipdirs, ","))
 	if files > 0 {
 		avg := float64(count) / float64(files)
 		avg = math.Round(avg)
-		fmt.Println(d, "has", count, "LOC in", files, "files with extensions in", e, ". Average", int64(avg))
+		fmt.Println(d, "extension", e)
+		fmt.Println("total", count, "files", files)
+		fmt.Println("min", min, "max", max, "average", avg)
 	}
 	fmt.Println("Finished process in", time.Since(start))
 }
